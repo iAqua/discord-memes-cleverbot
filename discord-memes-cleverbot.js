@@ -4,15 +4,15 @@
  var USERNAME = ""
  var EMAIL    = ""
  var PASSWORD = ""
- var RESTRICT_CLEVERBOT_TO_CHANNEL = false
- var CLEVERBOT_CHANNEL_NAME = "" // required if you set the restriction to `true`
+ var RESTRICT_aquaBOT_TO_CHANNEL = false
+ var aquaBOT_CHANNEL_NAME = "" // required if you set the restriction to `true`
  
  
 var fs = require('fs');
 var DiscordClient = require('discord.io');
-var cleverbot = require("cleverbot.io");
-var clever = new cleverbot('t77jVhrskGDT6Dm1', 'XKmJ3XW1dQwVJVXpWfODAUQ5qKucD6tc');
-var cleverON = false;
+var aquabot = require("aquabot.io");
+var aqua = new aquabot('t77jVhrskGDT6Dm1', 'XKmJ3XW1dQwVJVXpWfODAUQ5qKucD6tc');
+var aquaON = false;
 var memes = putMemes();
 var regexs = {};
 
@@ -36,7 +36,7 @@ bot.on('message', function (user, userID, channelID, message, rawEvent) {
     var server_channels = bot.servers[bot.serverFromChannel(channelID)].channels;
     var cID = "";
     Object.keys(server_channels).forEach(function (key) {
-        if (server_channels[key].name === CLEVERBOT_CHANNEL_NAME)
+        if (server_channels[key].name === aquaBOT_CHANNEL_NAME)
             cID = key
     })
 
@@ -67,9 +67,9 @@ bot.on('message', function (user, userID, channelID, message, rawEvent) {
                 message: "Meme was not found. Please contact your closest Certified Regular Expressionist to register your meme."
             })
     }
-    else if (cleverON && (RESTRICT_CLEVERBOT_TO_CHANNEL && channelID == cID) || (!RESTRICT_CLEVERBOT_TO_CHANNEL) && user != USERNAME) {
+    else if (aquaON && (RESTRICT_aquaBOT_TO_CHANNEL && channelID == cID) || (!RESTRICT_aquaBOT_TO_CHANNEL) && user != USERNAME) {
         console.log("Them> " + message);
-        clever.ask(message, function (err, response) {
+        aqua.ask(message, function (err, response) {
             console.log(USERNAME + "> " + response);
             bot.sendMessage({
                 to: channelID,
@@ -89,12 +89,12 @@ function say(ch, ms) {
 
 function commands(com, prm, userid, channel) {
     switch (com) {
-        case "clever":
+        case "aqua":
             prm = prm.toLowerCase();
             if (prm == "on")
-                cleverON = true;
+                aquaON = true;
             if (prm == "off")
-                cleverON = false;
+                aquaON = false;
             break;
 
         case "coinflip":
@@ -142,7 +142,7 @@ function commands(com, prm, userid, channel) {
         case "help":
             prm = prm.toLowerCase();
             if(prm =="")
-                say(channel, "HERE, TAKE:  clever on|off / coinflip [num] / help [memes]");
+                say(channel, "HERE, TAKE:  aqua on|off / coinflip [num] / help [memes]");
             else if(prm == "memes")
                 say(channel, "You can say ^register to register new memes")
     }
